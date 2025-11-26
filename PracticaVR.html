@@ -1,0 +1,118 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+<head> 
+    <title>Practica_VR</title>
+</head>
+<body>
+    
+<canvas id="myCanvas">
+    <!--El elemento HTML canvas se puede utilizar para dibujar gráficos a través de 
+        secuencias de comandos (por lo general JavaScript ).-->
+</canvas>
+
+<!-- Aquí va todo el código de three.js -->
+<!-- script type="importmap" importa las librerías necesarias para three.js-->
+<script type="importmap">  
+{ 
+    "imports":{ 
+    "three": "./js/three.module.js", 
+    "three/VRButton": "./js/VRButton.js" 
+    } 
+} 
+</script>
+
+<script type="module">
+//🗃️🗃️ Mandar llamar a la librería
+//---------------------------------------------------------------------Manda a llamar librerias - Scrips 
+
+import * as THREE from 'three';  
+import { VRButton } from 'three/VRButton'; 
+//   import {OrbitControls} from 'three/OrbitControls'; 
+//  console.log(OrbitControls); 
+    
+
+    import {RoundedBoxGeometry} from "./js/RoundedBoxGeometry.js"
+    
+
+    import {TextGeometry} from "./js/TextGeometry.js";
+    import {FontLoader} from "./js/FontLoader.js";
+
+
+    import grupArbol from"./Objetos_js/Objeto1_js_Arbol.js"
+    import grupCajaCompleta from"./Objetos_js/Objeto2_js_Regalo.js"
+    import grupEsferaCompleta from"./Objetos_js/Objeto3_js_EsferaNav.js"
+    import grupBota from"./Objetos_js/Objeto4_js_BotaNav.js"
+
+//---------------------------------------------------------------------Manda a llamar librerias - Scrips
+
+//🕹️🕹️ Renderer - Realiza una conexión entre el código y el canvas
+    var renderer = new THREE.WebGLRenderer({
+    canvas: document.getElementById('myCanvas'), antialias: true,
+    });
+    renderer.setPixelRatio(window.decivePixelRatio);
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setClearColor(0x8FDBFF);
+
+    // Renderer - Realiza una conexión entre el código y el canvas 
+var renderer = new THREE.WebGLRenderer({canvas: 
+document.getElementById('myCanvas'),antialias: true}); 
+renderer.setPixelRatio(window.decivePixelRatio); 
+renderer.setSize(window.innerWidth, window.innerHeight); 
+renderer.setClearColor(0x85929E); 
+renderer.xr.enabled = true;///////////////////////////////////////////////////////////// Añadir estas Dos lineas 
+renderer.xr.setReferenceSpaceType( 'local' );/////////////////////////////////////////// Para habilitar el VR 
+document.body.appendChild( renderer.domElement );///////////////////////////////////////// Añadir estas Dos lineas 
+document.body.appendChild( VRButton.createButton( renderer ) );/////////////////////////// PAra habilitar el boton en el navegador
+
+// 🎬 Creando nueva escena - Es el espacio donde se colocan los objetos
+    var scene = new THREE.Scene();
+
+//🎥🎥 Agregar una cámara de perspectiva
+    var camera = new THREE.PerspectiveCamera(70,window.innerWidth / window.innerHeight,0.1,2000
+      );
+    scene.add(camera);
+
+    //Settings de la cámara
+    //  camera.position.set(0, 4, -25); 
+camera.position.set(0, 7, 20); 
+// Añadiendo los OrbitControls 
+// var controls = new OrbitControls(camera, renderer.domElement); 
+// controls.enableDamping = true; 
+// controls.dampingFactor = 0.05;
+
+    
+
+// Espacio para colocar los objetos  
+    //Objetos 2D
+
+    //-----------------------------------------------------------------------------------------------------Luces
+    //----------------------------------------------------------------LucesSphere
+    var luzEsfera = new THREE.HemisphereLight(0xffffff,0xADDE59,1);
+    luzEsfera.position.set(5,5,5);
+    scene.add(luzEsfera);
+    //----------------------------------------------------------------LucesSphere
+    //-----------------------------------------------------------------------------------------------------Luces
+
+    //--------------------------------------------------------------------------------------------------------------------------Figura1_Copal
+    //---------------------------------------------------------------------------------------Objeto2_Regalo
+    var RegaloEscenario = grupCajaCompleta ({x:0,y:0,z:0});
+    scene.add(RegaloEscenario);
+
+    RegaloEscenario.position.set(0,0,-30);
+    RegaloEscenario.scale.set(1,1,1);
+    //---------------------------------------------------------------------------------------Objeto2_Regalo
+
+
+    //--------------------------------------------------------------------------------------------------------------------------Figura1_Copal
+
+    
+
+//🎰🎰Rendering y animación
+    function render (){ 
+renderer.render(scene, camera); 
+requestAnimationFrame(render); 
+} 
+renderer.setAnimationLoop( render ); 
+</script>
+</body>
+</html>
